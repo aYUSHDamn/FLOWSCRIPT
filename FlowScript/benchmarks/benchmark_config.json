@@ -1,0 +1,144 @@
+{
+  "benchmark_suite": "FlowScript Research Benchmark Suite",
+  "version": "1.0",
+  "compiler_version": "3.0",
+  "description": "Reproducible experimental evaluation comparing No-Recovery, Fixed-Retry, and FlowScript Safety-Constrained Recovery Synthesis across fault types, state space scales, and invariant constraints.",
+  "comparison_methods": {
+    "no_recovery": {
+      "name": "No Recovery",
+      "description": "Standard sequential execution without automated fault recovery. Faults terminate fail-closed.",
+      "synthesis_overhead": false,
+      "max_retries": 0
+    },
+    "fixed_retry": {
+      "name": "Fixed Retry",
+      "description": "Local retry loop re-attempting the exact failing actuation up to K=3 times before failing.",
+      "synthesis_overhead": false,
+      "max_retries": 3
+    },
+    "synthesized_recovery": {
+      "name": "FlowScript Recovery Synthesis",
+      "description": "Compiler-synthesized safe recovery sequence using bounded BFS graph search with global invariant pruning.",
+      "synthesis_overhead": true,
+      "default_budget": 5
+    }
+  },
+  "metrics": {
+    "task_success_rate": "Proportion of executions where final state satisfies target condition and execution exits cleanly.",
+    "global_invariant_violations": "Count of global safety invariant contract breaches during execution. Must be 0.",
+    "recovery_success_rate": "Proportion of faulted executions where recovery succeeded in achieving target state.",
+    "unhandled_failure_rate": "Proportion of executions terminating with unhandled error or failed recovery.",
+    "synthesis_time_ms": "Time in milliseconds spent in BFS recovery synthesis graph search.",
+    "execution_time_ms": "Time in milliseconds spent in VM stack-machine bytecode execution.",
+    "total_time_ms": "Combined compilation, synthesis, and execution latency.",
+    "simulated_recovery_latency_sec": "Simulated elapsed time added by recovery actions and delays.",
+    "states_explored": "Number of discrete graph states explored by BFS search.",
+    "transitions_rejected": "Number of candidate transitions pruned due to safety invariant violations.",
+    "budget_exhaustion_rate": "Proportion of runs where search budget was exhausted without finding a plan."
+  },
+  "scenarios": [
+    {
+      "id": "S1_transient",
+      "name": "Transient Actuation Failure",
+      "description": "Single transient fault on primary device; subsequent actuation succeeds.",
+      "devices": { "primary_cooler": "cooling", "backup_cooler": "cooling" },
+      "invariants": [],
+      "target_condition": "primary_cooler.status == ON",
+      "fault": {
+        "enabled": true,
+        "rules": [
+          { "device": "primary_cooler", "action": "TURN_ON", "fault_type": "action_failure", "trigger_step": 1 }
+        ]
+      },
+      "budget": 3,
+      "replicates": 5
+    },
+    {
+      "id": "S2_persistent_backup",
+      "name": "Persistent Failure with Redundant Backup",
+      "description": "Permanent hardware failure on primary device; backup device available.",
+      "devices": { "primary_cooler": "cooling", "backup_cooler": "cooling" },
+      "invariants": [],
+      "target_condition": "backup_cooler.status == ON",
+      "fault": {
+        "enabled": true,
+        "rules": [
+          { "device": "primary_cooler", "action": "TURN_ON", "fault_type": "action_failure", "trigger_step": null }
+        ]
+      },
+      "budget": 3,
+      "replicates": 5
+    },
+    {
+      "id": "S3_state_mismatch",
+      "name": "Silent State Mismatch under Contract Detection",
+      "description": "Actuation reports nominal execution but physical state remains OFF; detected by ENSURE contract.",
+      "devices": { "primary_pump": "cooling", "backup_pump": "cooling" },
+      "invariants": [],
+      "target_condition": "backup_pump.status == ON",
+      "fault": {
+        "enabled": true,
+        "rules": [
+          { "device": "primary_pump", "action": "TURN_ON", "fault_type": "state_mismatch", "trigger_step": 1, "mismatch_state": "OFF" }
+        ]
+      },
+      "budget": 3,
+      "replicates": 5
+    },
+    {
+      "id": "S4_multi_device_inv",
+      "name": "Multi-Device Invariant Coordination",
+      "description": "Initial state heater=ON; target backup_cooler=ON; invariant forbids simultaneous ON.",
+      "devices": { "heater": "heating", "primary_cooler": "cooling", "backup_cooler": "cooling" },
+      "initial_state": { "heater": "ON", "primary_cooler": "OFF", "backup_cooler": "OFF" },
+      "invariants": [
+        "NOT (heater.status == ON AND (primary_cooler.status == ON OR backup_cooler.status == ON))"
+      ],
+      "target_condition": "backup_cooler.status == ON",
+      "fault": {
+        "enabled": true,
+        "rules": [
+          { "device": "primary_cooler", "action": "TURN_ON", "fault_type": "action_failure", "trigger_step": 1 }
+        ]
+      },
+      "budget": 4,
+      "replicates": 5
+    },
+    {
+      "id": "S5_fail_closed",
+      "name": "Fail-Closed Invariant Proof (Unreachable Target)",
+      "description": "Target requires cooler=ON while heater=ON, but TURN_OFF heater is NOT approved. All paths violate invariant.",
+      "devices": { "heater": "heating", "cooler": "cooling" },
+      "initial_state": { "heater": "ON", "cooler": "OFF" },
+      "invariants": [
+        "NOT (heater.status == ON AND cooler.status == ON)"
+      ],
+      "approved_actions": ["TURN_ON cooler"],
+      "target_condition": "cooler.status == ON",
+      "fault": { "enabled": false },
+      "budget": 3,
+      "replicates": 5
+    },
+    {
+      "id": "S6_scalability",
+      "name": "State-Space & Search Budget Scalability",
+      "description": "Evaluation of synthesis runtime, exploration states, and invariant pruning across device counts D in {2, 4, 6, 8} and budgets k in {1, 2, 3, 4, 5}.",
+      "device_counts": [2, 4, 6, 8],
+      "budgets": [1, 2, 3, 4, 5],
+      "replicates": 5
+    },
+    {
+      "id": "S7_probabilistic",
+      "name": "Probabilistic Fault Sensitivity (N=30 seeds)",
+      "description": "Randomized fault injection with fault rate p=0.4 across 30 deterministic seeds to measure variance and statistical significance.",
+      "devices": { "primary_pump": "cooling", "backup_pump": "cooling", "heater": "heating" },
+      "invariants": ["NOT (heater.status == ON AND (primary_pump.status == ON OR backup_pump.status == ON))"],
+      "random_fault_rate": 0.4,
+      "target_condition": "backup_pump.status == ON",
+      "seeds": [101, 102, 103, 104, 105, 106, 107, 108, 109, 110,
+                201, 202, 203, 204, 205, 206, 207, 208, 209, 210,
+                301, 302, 303, 304, 305, 306, 307, 308, 309, 310],
+      "budget": 4
+    }
+  ]
+}

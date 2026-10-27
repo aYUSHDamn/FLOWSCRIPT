@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FlowScript Studio | Compiler & Recovery Synthesis Playground</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="theme-dark">
+  <!-- App Container -->
+  <div class="app-container">
+    
+    <!-- Top Navigation Bar -->
+    <header class="navbar" role="banner">
+      <div class="nav-left">
+        <button id="toggle-sidebar-btn" class="icon-btn" title="Toggle Sidebar (Ctrl+\)" aria-label="Toggle Sidebar">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="3" x2="9" y2="21"/></svg>
+        </button>
+        <div class="brand">
+          <div class="logo-icon">FS</div>
+          <div class="brand-text">
+            <span class="brand-title">FlowScript Studio</span>
+            <span class="brand-subtitle">Research &amp; Recovery Playground</span>
+          </div>
+          <span class="badge badge-version">v3.0</span>
+        </div>
+      </div>
+
+      <div class="nav-center">
+        <div class="example-select-wrapper">
+          <label for="example-select" class="sr-only">Choose Example Workflow</label>
+          <span class="select-prefix">Workflow:</span>
+          <select id="example-select" class="nav-select">
+            <option value="" disabled>Select an example...</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="nav-right">
+        <!-- Optimization Toggle -->
+        <label class="toggle-pill" title="Toggle compiler optimizations (Constant folding & dead-code elimination)">
+          <input type="checkbox" id="opt-toggle" checked>
+          <span class="toggle-track">
+            <span class="toggle-thumb"></span>
+          </span>
+          <span class="toggle-label" id="opt-toggle-label">Optimizer: ON</span>
+        </label>
+
+        <!-- Fault Injection Toggle (Phase 4) -->
+        <label class="toggle-pill toggle-fault" title="Toggle Simulated Fault Injection (Phase 4: hardware errors, state mismatches, delays)">
+          <input type="checkbox" id="fault-toggle">
+          <span class="toggle-track">
+            <span class="toggle-thumb"></span>
+          </span>
+          <span class="toggle-label" id="fault-toggle-label">Faults: OFF</span>
+        </label>
+
+        <div class="fault-select-wrapper hidden" id="fault-preset-wrapper">
+          <select id="fault-preset-select" class="nav-select nav-select-sm" title="Select Fault Preset">
+            <option value="action_failure">Fault: Action Failure (primary_pump)</option>
+            <option value="state_mismatch">Fault: State Mismatch (primary_pump remains OFF)</option>
+            <option value="delayed_completion">Fault: Delayed Actuation (+2.5s)</option>
+            <option value="custom">Configure Custom Fault...</option>
+          </select>
+        </div>
+
+        <!-- Tutorial Button -->
+        <button id="tutorial-btn" class="btn btn-secondary" title="Open Guided Tour">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          <span>Tour</span>
+        </button>
+
+        <!-- Research Docs Button -->
+        <button id="research-btn" class="btn btn-secondary" title="View Research Model &amp; Invariants">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+          <span>Model</span>
+        </button>
+
+        <!-- Compile Button -->
+        <button id="compile-btn" class="btn btn-secondary" title="Compile Workflow (Ctrl+B)">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+          <span>Compile</span>
+        </button>
+
+        <!-- Run Button -->
+        <button id="run-btn" class="btn btn-primary" title="Execute Workflow (Ctrl+Enter)">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          <span>Run</span>
+        </button>
+
+        <!-- Backend Health Pill -->
+        <div id="backend-status" class="status-pill status-connected" title="FlowScript Compiler Backend">
+          <span class="status-dot"></span>
+          <span class="status-text">Ready</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Guided Tutorial Banner (Collapsible) -->
+    <div id="tutorial-banner" class="tutorial-banner hidden" role="region" aria-label="Guided Tutorial">
+      <div class="tutorial-content">
+        <div class="tutorial-header">
+          <span class="tutorial-badge">Step <span id="tut-step-num">1</span> of 6</span>
+          <h3 id="tut-title" class="tutorial-title">Welcome to FlowScript</h3>
+          <button id="tut-close-btn" class="icon-btn" aria-label="Close Tour">&times;</button>
+        </div>
+        <p id="tut-desc" class="tutorial-description">Explanation of current concept.</p>
+        <div class="tutorial-expected">
+          <strong>Expected Outcome:</strong> <span id="tut-expected-text">What will happen</span>
+        </div>
+        <div class="tutorial-actions">
+          <button id="tut-load-btn" class="btn btn-secondary btn-sm">Load Step Code</button>
+          <button id="tut-run-btn" class="btn btn-primary btn-sm">Run Workflow</button>
+          <div class="tutorial-nav-btns">
+            <button id="tut-prev-btn" class="btn btn-secondary btn-sm" disabled>&larr; Previous</button>
+            <button id="tut-next-btn" class="btn btn-secondary btn-sm">Next &rarr;</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Workspace -->
+    <main class="workspace" id="workspace">
+      
+      <!-- Left Sidebar -->
+      <aside class="sidebar" id="sidebar" role="complementary" aria-label="Workflows and Reference">
+        
+        <!-- Examples Section -->
+        <div class="sidebar-section">
+          <div class="sidebar-section-header">
+            <span class="section-title">Curated Workflows</span>
+          </div>
+          <div class="examples-list" id="examples-list" role="list">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+
+        <!-- Quick Syntax Reference Section -->
+        <div class="sidebar-section">
+          <div class="sidebar-section-header">
+            <span class="section-title">Language Reference</span>
+          </div>
+          <div class="quick-ref-list">
+            <details class="ref-item" open>
+              <summary><strong>Devices &amp; Actuation</strong></summary>
+              <pre class="ref-snippet"><code>DEVICE heater TYPE heating
+TURN_ON heater
+TURN_OFF heater
+IF heater.status == ON ...</code></pre>
+            </details>
+            <details class="ref-item" open>
+              <summary><strong>Contracts &amp; Invariants</strong></summary>
+              <pre class="ref-snippet"><code>INVARIANT NOT (h.status == ON AND c.status == ON)
+REQUIRE cooler.status == OFF
+ENSURE heater.status == ON</code></pre>
+            </details>
+            <details class="ref-item" open>
+              <summary><strong>Recovery Synthesis</strong></summary>
+              <pre class="ref-snippet"><code>TRY
+    REQUIRE safe == 1
+RECOVER
+    SYNTHESIZE cooler.status == ON MAX_STEPS 3
+END_TRY</code></pre>
+            </details>
+          </div>
+        </div>
+
+        <!-- Simulation Note -->
+        <div class="sidebar-footer">
+          <div class="info-card">
+            <div class="info-card-title">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              <span>Simulated Devices</span>
+            </div>
+            <p>Discrete state model ($S \in \{\text{ON}, \text{OFF}\}$). Compiler synthesis proves bounded transition safety in simulation, not physical actuation dynamics.</p>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Central Code Editor Area -->
+      <section class="editor-pane" role="region" aria-label="Code Editor">
+        <div class="pane-header">
+          <div class="pane-tab active">
+            <span class="file-icon">⚡</span>
+            <span id="active-filename" class="file-title">workflow.flow</span>
+            <span id="dirty-indicator" class="dirty-dot hidden" title="Unsaved edits">*</span>
+          </div>
+          <div class="pane-actions">
+            <span id="cursor-pos" class="cursor-counter">Ln 1, Col 1</span>
+            <button id="format-btn" class="icon-btn-text" title="Format indentation">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="21" y1="10" x2="7" y2="10"/><line x1="21" y1="6" x2="3" y2="6"/><line x1="21" y1="14" x2="3" y2="14"/><line x1="21" y1="18" x2="7" y2="18"/></svg>
+              <span>Format</span>
+            </button>
+            <button id="copy-btn" class="icon-btn-text" title="Copy workflow to clipboard">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              <span id="copy-text">Copy</span>
+            </button>
+            <button id="download-btn" class="icon-btn-text" title="Download .flow file">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              <span>Download</span>
+            </button>
+            <button id="reset-btn" class="icon-btn-text" title="Reset to original example">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
+              <span>Reset</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Custom Code Editor -->
+        <div class="editor-container" id="editor-container">
+          <div class="gutter" id="editor-gutter" aria-hidden="true"></div>
+          <div class="editor-scroller" id="editor-scroller">
+            <pre class="highlight-layer" id="highlight-layer" aria-hidden="true"><code id="highlight-code"></code></pre>
+            <textarea id="code-input" class="code-input" spellcheck="false" autocomplete="off" autocapitalize="off" aria-label="FlowScript Source Code"></textarea>
+          </div>
+        </div>
+
+        <!-- Editor Footer Status Bar -->
+        <div class="editor-footer">
+          <div class="footer-left">
+            <span id="compiler-status-badge" class="badge badge-idle">Ready</span>
+            <span id="perf-metrics" class="footer-meta">Ready to compile</span>
+          </div>
+          <div class="footer-right">
+            <span class="footer-hint"><kbd>Ctrl+Enter</kbd> Run</span>
+            <span class="footer-hint"><kbd>Ctrl+B</kbd> Compile</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Right / Bottom Output & Inspector Panel -->
+      <section class="inspector-pane" role="region" aria-label="Execution Output and Compiler Inspector">
+        <!-- Inspector Tabs -->
+        <div class="tabs-bar" role="tablist">
+          <button class="tab-btn active" role="tab" aria-selected="true" data-tab="tab-output">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+            <span>Console</span>
+          </button>
+          <button class="tab-btn" role="tab" aria-selected="false" data-tab="tab-diagnostics">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            <span>Diagnostics</span>
+            <span id="diag-badge" class="tab-counter hidden">0</span>
+          </button>
+          <button class="tab-btn" role="tab" aria-selected="false" data-tab="tab-tokens">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+            <span>Tokens</span>
+          </button>
+          <button class="tab-btn" role="tab" aria-selected="false" data-tab="tab-ast">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="5" r="3"/><circle cx="5" cy="19" r="3"/><circle cx="19" cy="19" r="3"/><line x1="12" y1="8" x2="5" y2="16"/><line x1="12" y1="8" x2="19" y2="16"/></svg>
+            <span>AST</span>
+          </button>
+          <button class="tab-btn" role="tab" aria-selected="false" data-tab="tab-ir">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+            <span>IR</span>
+          </button>
+          <button class="tab-btn" role="tab" aria-selected="false" data-tab="tab-opt-ir">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+            <span>Optimized IR</span>
+            <span id="opt-stats-pill" class="tab-pill hidden">-0%</span>
+          </button>
+          <button class="tab-btn" role="tab" aria-selected="false" data-tab="tab-telemetry">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <span>Recovery Synthesis</span>
+            <span id="telemetry-badge" class="tab-pill badge-purple hidden">Plan</span>
+          </button>
+          <button class="tab-btn" role="tab" aria-selected="false" data-tab="tab-monitoring">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+            <span>Monitoring</span>
+            <span id="monitoring-badge" class="tab-pill badge-amber hidden">0 Faults</span>
+          </button>
+        </div>
+
+        <!-- Tab Contents -->
+        <div class="tabs-body">
+          
+          <!-- Tab: Console Output -->
+          <div id="tab-output" class="tab-pane active" role="tabpanel">
+            <!-- Live Device HUD -->
+            <div class="device-hud" id="device-hud">
+              <span class="hud-label">Device States:</span>
+              <div class="hud-chips" id="device-chips">
+                <span class="chip chip-dim">No devices active</span>
+              </div>
+            </div>
+
+            <!-- Terminal Output -->
+            <div class="terminal" id="terminal" aria-live="polite">
+              <div class="terminal-line terminal-dim">Press “Run” (Ctrl+Enter) or “Compile” (Ctrl+B) to execute this workflow.</div>
+            </div>
+
+            <!-- Variables Table -->
+            <div class="vars-summary hidden" id="vars-summary">
+              <div class="vars-header">Variable Environment</div>
+              <div class="vars-grid" id="vars-grid"></div>
+            </div>
+          </div>
+
+          <!-- Tab: Diagnostics -->
+          <div id="tab-diagnostics" class="tab-pane" role="tabpanel">
+            <div class="tab-subtitle">Compiler &amp; Runtime Diagnostics</div>
+            <div id="diagnostics-list" class="diagnostics-list">
+              <div class="empty-state">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                <p>No diagnostics reported. The program parsed, analyzed, and executed cleanly.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tab: Tokens -->
+          <div id="tab-tokens" class="tab-pane" role="tabpanel">
+            <div class="tab-header-row">
+              <div class="tab-subtitle">Lexical Stream — How the compiler tokenizes input characters</div>
+              <input type="text" id="token-filter" class="table-search" placeholder="Filter tokens...">
+            </div>
+            <div class="table-container">
+              <table class="data-table" id="tokens-table">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Type</th>
+                    <th>Value</th>
+                    <th>Line</th>
+                  </tr>
+                </thead>
+                <tbody id="tokens-body">
+                  <tr><td colspan="4" class="dim-row">Compile the workflow to inspect tokens.</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Tab: AST -->
+          <div id="tab-ast" class="tab-pane" role="tabpanel">
+            <div class="tab-subtitle">Abstract Syntax Tree — Hierarchical structural representation</div>
+            <div class="code-view-container">
+              <pre class="formatted-code" id="ast-view"><code>Compile the workflow to view the AST.</code></pre>
+            </div>
+          </div>
+
+          <!-- Tab: IR -->
+          <div id="tab-ir" class="tab-pane" role="tabpanel">
+            <div class="tab-subtitle">Stack Machine Bytecode — Raw instructions before optimization</div>
+            <div class="table-container">
+              <table class="data-table" id="ir-table">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Opcode</th>
+                    <th>Argument</th>
+                    <th>Line</th>
+                  </tr>
+                </thead>
+                <tbody id="ir-body">
+                  <tr><td colspan="4" class="dim-row">Compile the workflow to inspect IR bytecode.</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Tab: Optimized IR -->
+          <div id="tab-opt-ir" class="tab-pane" role="tabpanel">
+            <div class="tab-header-row">
+              <div class="tab-subtitle">Optimized Bytecode — Constant folding &amp; unreachable code removal</div>
+              <div class="opt-stats-badge" id="opt-stats-details">0 instructions</div>
+            </div>
+            <div class="table-container">
+              <table class="data-table" id="opt-ir-table">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Opcode</th>
+                    <th>Argument</th>
+                    <th>Line</th>
+                  </tr>
+                </thead>
+                <tbody id="opt-ir-body">
+                  <tr><td colspan="4" class="dim-row">Compile with optimizer enabled to inspect transformed IR.</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Tab: Recovery Synthesis Telemetry -->
+          <div id="tab-telemetry" class="tab-pane" role="tabpanel">
+            <div class="tab-subtitle">Research Telemetry — Safety-constrained bounded BFS recovery synthesis</div>
+            <div id="telemetry-view" class="telemetry-view">
+              <div class="empty-state">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                <p>No <code>SYNTHESIZE</code> directive detected in this workflow.</p>
+                <button id="load-synth-demo-btn" class="btn btn-secondary btn-sm" style="margin-top: 12px;">Load Synthesis Demo</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tab: Runtime Monitoring & Fault Telemetry (Phase 4) -->
+          <div id="tab-monitoring" class="tab-pane" role="tabpanel">
+            <div class="tab-header-row">
+              <div class="tab-subtitle">Runtime Monitoring &amp; Event Stream — Structured device execution, faults, and recovery decisions</div>
+              <div class="tab-actions-row">
+                <button id="fault-config-btn" class="btn btn-secondary btn-sm" title="Configure Fault Injection Parameters">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                  <span>Configure Faults</span>
+                </button>
+                <button id="load-fault-demo-btn" class="btn btn-secondary btn-sm" title="Load Fault Injection &amp; Self-Healing Demo Workflow">
+                  <span>Load Fault Demo</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Monitoring Dashboard / KPIs -->
+            <div id="monitoring-view" class="monitoring-view">
+              <div class="kpi-grid">
+                <div class="kpi-box">
+                  <div class="kpi-label">Fault Injection Mode</div>
+                  <div class="kpi-value" id="kpi-fault-status">Disabled</div>
+                </div>
+                <div class="kpi-box">
+                  <div class="kpi-label">Faults Injected</div>
+                  <div class="kpi-value highlight-amber" id="kpi-faults-injected">0</div>
+                </div>
+                <div class="kpi-box">
+                  <div class="kpi-label">Recoveries Succeeded</div>
+                  <div class="kpi-value highlight-blue" id="kpi-recoveries">0</div>
+                </div>
+                <div class="kpi-box">
+                  <div class="kpi-label">Simulated Time Elapsed</div>
+                  <div class="kpi-value highlight-purple" id="kpi-sim-time">0.000s</div>
+                </div>
+              </div>
+
+              <!-- Execution Events Table -->
+              <div class="table-container monitoring-table-container">
+                <table class="data-table" id="events-table">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Sim Time</th>
+                      <th>Event Type</th>
+                      <th>Device</th>
+                      <th>Action</th>
+                      <th>Req &rarr; Obs</th>
+                      <th>Fault Type</th>
+                      <th>Recovery</th>
+                      <th>Outcome</th>
+                    </tr>
+                  </thead>
+                  <tbody id="events-body">
+                    <tr><td colspan="9" class="dim-row">Execute workflow with or without faults to stream runtime events.</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Research Model Modal -->
+    <div id="research-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <div class="modal-backdrop"></div>
+      <div class="modal-card">
+        <div class="modal-header">
+          <h2 id="modal-title" class="modal-title">FlowScript Recovery Synthesis Model</h2>
+          <button id="modal-close-btn" class="icon-btn" aria-label="Close Modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div class="model-section">
+            <h3>1. Finite-State Discrete Model</h3>
+            <p>The system state $S \in \mathcal{S}$ is modeled as a mapping $D_{\text{controllable}} \to \{\text{ON}, \text{OFF}\}$. Actuations are discrete state transitions $\delta(S, a) \to S'$ with instantaneous simulated effects.</p>
+          </div>
+          <div class="model-section">
+            <h3>2. Safety-Constrained Search ($\mathcal{I}$)</h3>
+            <p>Every candidate transition is validated against global safety contracts. If an invariant evaluates to false in intermediate state $S'$, the transition is pruned immediately, guaranteeing safety-by-construction.</p>
+          </div>
+          <div class="model-section">
+            <h3>3. Fail-Closed Safety Property</h3>
+            <p>If no action sequence reaches the target predicate within $k = \text{max\_steps}$, or if invariants eliminate all paths, the compiler aborts compilation. No partial or unsafe plan is ever emitted.</p>
+          </div>
+          <div class="model-section alert-box">
+            <strong>Simulation vs. Physical Actuation:</strong>
+            <p>This prototype simulates ideal discrete binary devices. Real-world physical cyber-physical deployment requires accounting for actuator slew rates, sensor noise, network packet loss, and continuous physics.</p>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button id="modal-ok-btn" class="btn btn-primary">Understood</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Confirm Discard Modal -->
+    <div id="confirm-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="confirm-title">
+      <div class="modal-backdrop"></div>
+      <div class="modal-card modal-sm">
+        <div class="modal-header">
+          <h2 id="confirm-title" class="modal-title">Unsaved Changes</h2>
+          <button id="confirm-close-btn" class="icon-btn" aria-label="Cancel">&times;</button>
+        </div>
+        <div class="modal-body">
+          <p>You have unsaved edits in your current workflow. Loading a new example will discard these modifications.</p>
+        </div>
+        <div class="modal-footer">
+          <button id="confirm-cancel-btn" class="btn btn-secondary">Keep Editing</button>
+          <button id="confirm-proceed-btn" class="btn btn-danger">Discard &amp; Switch</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Fault Configuration Modal (Phase 4) -->
+    <div id="fault-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="fault-modal-title">
+      <div class="modal-backdrop"></div>
+      <div class="modal-card">
+        <div class="modal-header">
+          <h2 id="fault-modal-title" class="modal-title">Simulated Fault Injection Configuration</h2>
+          <button id="fault-modal-close-btn" class="icon-btn" aria-label="Close Modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div class="model-section">
+            <h3>Reproducible Failure Scenarios</h3>
+            <p>Inject deterministic hardware failures, sensor/actuator state mismatches, or actuation latency to verify that recovery policies and safety contracts respond safely.</p>
+          </div>
+          <div class="fault-form">
+            <div class="form-row">
+              <label for="cfg-fault-enable"><strong>Fault Injection State:</strong></label>
+              <select id="cfg-fault-enable" class="form-select">
+                <option value="true">Enabled</option>
+                <option value="false">Disabled</option>
+              </select>
+            </div>
+            <div class="form-row">
+              <label for="cfg-fault-scenario"><strong>Scenario Preset:</strong></label>
+              <select id="cfg-fault-scenario" class="form-select">
+                <option value="action_failure">Action Failure: primary_pump TURN_ON raises hardware failure</option>
+                <option value="state_mismatch">State Mismatch: primary_pump remains OFF after TURN_ON</option>
+                <option value="delayed_completion">Delayed Actuation: primary_pump adds +2.5s latency</option>
+                <option value="custom">Custom Fault Rule (Manual Parameters)</option>
+              </select>
+            </div>
+            <hr class="form-divider">
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="cfg-rule-device">Target Device</label>
+                <input type="text" id="cfg-rule-device" class="form-input" value="primary_pump">
+              </div>
+              <div class="form-group">
+                <label for="cfg-rule-action">Target Action</label>
+                <select id="cfg-rule-action" class="form-select">
+                  <option value="TURN_ON">TURN_ON</option>
+                  <option value="TURN_OFF">TURN_OFF</option>
+                  <option value="">ANY (Both)</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="cfg-rule-type">Fault Type</label>
+                <select id="cfg-rule-type" class="form-select">
+                  <option value="action_failure">action_failure (Hardware Error)</option>
+                  <option value="state_mismatch">state_mismatch (Silent Failure)</option>
+                  <option value="delayed_completion">delayed_completion (Latency)</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="cfg-rule-step">Trigger Step (1-indexed)</label>
+                <input type="number" id="cfg-rule-step" class="form-input" value="1" min="1" max="100">
+              </div>
+              <div class="form-group">
+                <label for="cfg-rule-delay">Simulated Delay (seconds)</label>
+                <input type="number" id="cfg-rule-delay" class="form-input" value="2.5" step="0.5" min="0">
+              </div>
+              <div class="form-group">
+                <label for="cfg-rule-mismatch">Observed State on Mismatch</label>
+                <select id="cfg-rule-mismatch" class="form-select">
+                  <option value="OFF">OFF</option>
+                  <option value="ON">ON</option>
+                </select>
+              </div>
+            </div>
+            <div class="alert-box" style="margin-top: 14px;">
+              <strong>Invariant Guarantee:</strong> Injected faults never bypass global <code>INVARIANT</code> contracts. Recovery policies evaluate against the true simulated state, ensuring fail-closed safety.
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button id="fault-modal-apply-btn" class="btn btn-primary">Apply &amp; Run</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

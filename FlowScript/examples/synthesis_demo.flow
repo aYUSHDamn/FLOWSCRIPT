@@ -1,0 +1,32 @@
+START
+# FlowScript Phase 3: Compiler-Generated Safety-Constrained Recovery Synthesis Demo
+DEVICE heater TYPE heating
+DEVICE cooler TYPE cooling
+DEVICE backup_cooler TYPE cooling
+
+INVARIANT NOT (heater.status == ON AND cooler.status == ON)
+
+PRINT "Starting synthesis demonstration workflow"
+
+# Scenario 1: Automatic recovery plan synthesis
+# A fault occurs (REQUIRE fails) while heater is ON.
+# The compiler synthesizes the sequence of actions to reach target:
+#   heater.status == OFF AND backup_cooler.status == ON
+# while strictly maintaining the global safety invariant.
+TURN_ON heater
+TRY
+    PRINT "Initiating high-load operation"
+    REQUIRE cooler.status == ON
+    PRINT "This line will not run because cooler is OFF"
+RECOVER
+    PRINT "Fault detected: executing compiler-synthesized recovery plan"
+    SYNTHESIZE backup_cooler.status == ON AND heater.status == OFF USING TURN_OFF heater, TURN_ON backup_cooler, TURN_ON cooler, TURN_OFF cooler MAX_STEPS 5
+    PRINT "Recovery goal achieved safely"
+END_TRY
+
+PRINT "Final validation: verifying post-recovery device states"
+REQUIRE backup_cooler.status == ON
+REQUIRE heater.status == OFF
+
+PRINT "Synthesis demo completed successfully"
+END

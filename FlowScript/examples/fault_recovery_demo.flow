@@ -1,0 +1,29 @@
+START
+# Demonstration of Phase 4: Fault Injection & Self-Healing
+# In this workflow, a primary cooling pump is actuated.
+# When fault injection is activated (action_failure or state_mismatch),
+# the failure is caught by TRY/RECOVER and a backup pump is engaged.
+
+DEVICE primary_pump TYPE cooling
+DEVICE backup_pump TYPE cooling
+
+INVARIANT NOT (primary_pump.status == ON AND backup_pump.status == ON)
+
+PRINT "System starting nominal cooling loop..."
+
+TRY
+    PRINT "Attempting to activate primary pump..."
+    TURN_ON primary_pump
+    ENSURE primary_pump.status == ON
+    PRINT "Primary pump operational."
+RECOVER
+    PRINT "FAULT DETECTED: Primary pump failed to actuate or state mismatched!"
+    PRINT "Engaging automated self-healing fallback..."
+    TURN_OFF primary_pump
+    TURN_ON backup_pump
+    ENSURE backup_pump.status == ON
+    PRINT "Self-healing successful: Backup pump is now ON."
+END_TRY
+
+PRINT "Cooling loop verified safe."
+END

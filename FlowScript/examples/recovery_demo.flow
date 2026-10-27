@@ -1,0 +1,37 @@
+START
+# Demonstration of FlowScript Explicit Recovery Blocks
+DEVICE heater TYPE heating
+DEVICE cooler TYPE cooling
+DEVICE backup_cooler TYPE cooling
+
+INVARIANT NOT (heater.status == ON AND cooler.status == ON)
+
+PRINT "Starting self-healing workflow"
+
+# Step 1: Successful operation in TRY block (recovery skipped)
+TRY
+    REQUIRE cooler.status == OFF
+    TURN_ON heater
+    ENSURE heater.status == ON
+    PRINT "Normal heating cycle complete"
+    TURN_OFF heater
+RECOVER
+    PRINT "Heating failed: entering recovery"
+    TURN_OFF heater
+    TURN_ON cooler
+END_TRY
+
+# Step 2: Fault occurs inside TRY (REQUIRE violation), triggers RECOVER
+TRY
+    PRINT "Attempting backup operation"
+    REQUIRE backup_cooler.status == ON
+    PRINT "This line will not run"
+RECOVER
+    PRINT "Precondition failed: initiating safe recovery"
+    TURN_ON backup_cooler
+    ENSURE backup_cooler.status == ON
+    PRINT "Backup cooler activated successfully"
+END_TRY
+
+PRINT "Workflow completed safely"
+END

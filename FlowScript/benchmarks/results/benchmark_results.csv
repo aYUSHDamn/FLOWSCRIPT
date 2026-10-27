@@ -1,0 +1,166 @@
+scenario_id,scenario_name,method,device_count,state_space_size,budget,fault_type,fallback_available,target_reachable,trial_idx,seed,optimized,task_success,recovery_success,invariant_violations,unhandled_failures,budget_exhausted,synthesis_time_ms,execution_time_ms,total_time_ms,simulated_recovery_latency_sec,states_explored,transitions_rejected,instructions_executed,plan_length,error_message
+S1_transient,Transient Actuation Failure,no_recovery,2,4,0,action_failure,True,True,0,,True,False,False,0,1,False,0.0,0.053,0.31,0.0,0,0,3,0,Simulated actuation failure: 'TURN_ON primary_cooler' failed
+S1_transient,Transient Actuation Failure,fixed_retry,2,4,3,action_failure,True,True,0,,True,True,True,0,0,False,0.0,0.085,0.536,0,0,0,16,1,
+S1_transient,Transient Actuation Failure,synthesized_recovery,2,4,3,action_failure,True,True,0,,True,True,True,0,0,False,0.031,0.029,0.366,0,1,0,8,1,
+S1_transient,Transient Actuation Failure,no_recovery,2,4,0,action_failure,True,True,1,,True,False,False,0,1,False,0.0,0.023,0.16,0.0,0,0,3,0,Simulated actuation failure: 'TURN_ON primary_cooler' failed
+S1_transient,Transient Actuation Failure,fixed_retry,2,4,3,action_failure,True,True,1,,True,True,True,0,0,False,0.0,0.063,0.456,0,0,0,16,1,
+S1_transient,Transient Actuation Failure,synthesized_recovery,2,4,3,action_failure,True,True,1,,True,True,True,0,0,False,0.021,0.029,0.328,0,1,0,8,1,
+S1_transient,Transient Actuation Failure,no_recovery,2,4,0,action_failure,True,True,2,,True,False,False,0,1,False,0.0,0.022,0.151,0.0,0,0,3,0,Simulated actuation failure: 'TURN_ON primary_cooler' failed
+S1_transient,Transient Actuation Failure,fixed_retry,2,4,3,action_failure,True,True,2,,True,True,True,0,0,False,0.0,0.059,0.446,0,0,0,16,1,
+S1_transient,Transient Actuation Failure,synthesized_recovery,2,4,3,action_failure,True,True,2,,True,True,True,0,0,False,0.017,0.032,0.308,0,1,0,8,1,
+S1_transient,Transient Actuation Failure,no_recovery,2,4,0,action_failure,True,True,3,,True,False,False,0,1,False,0.0,0.022,0.17,0.0,0,0,3,0,Simulated actuation failure: 'TURN_ON primary_cooler' failed
+S1_transient,Transient Actuation Failure,fixed_retry,2,4,3,action_failure,True,True,3,,True,True,True,0,0,False,0.0,0.062,0.459,0,0,0,16,1,
+S1_transient,Transient Actuation Failure,synthesized_recovery,2,4,3,action_failure,True,True,3,,True,True,True,0,0,False,0.018,0.033,0.319,0,1,0,8,1,
+S1_transient,Transient Actuation Failure,no_recovery,2,4,0,action_failure,True,True,4,,True,False,False,0,1,False,0.0,0.022,0.156,0.0,0,0,3,0,Simulated actuation failure: 'TURN_ON primary_cooler' failed
+S1_transient,Transient Actuation Failure,fixed_retry,2,4,3,action_failure,True,True,4,,True,True,True,0,0,False,0.0,0.06,0.46,0,0,0,16,1,
+S1_transient,Transient Actuation Failure,synthesized_recovery,2,4,3,action_failure,True,True,4,,True,True,True,0,0,False,0.018,0.032,0.32,0,1,0,8,1,
+S2_persistent_backup,Persistent Failure with Redundant Backup,no_recovery,2,4,0,action_failure,True,True,0,,True,False,False,0,1,False,0.0,0.024,0.168,0.0,0,0,3,0,Simulated actuation failure: 'TURN_ON primary_cooler' failed
+S2_persistent_backup,Persistent Failure with Redundant Backup,fixed_retry,2,4,3,action_failure,True,True,0,,True,False,False,0,1,True,0.0,0.081,0.485,0,0,0,12,0,Recovery failed [line 16]: Simulated actuation failure: 'TURN_ON primary_cooler' failed (original error in TRY [line 13]: Simulated actuation failure: 'TURN_ON primary_cooler' failed)
+S2_persistent_backup,Persistent Failure with Redundant Backup,synthesized_recovery,2,4,3,action_failure,True,True,0,,True,True,True,0,0,False,0.016,0.04,0.33,0,1,0,8,1,
+S2_persistent_backup,Persistent Failure with Redundant Backup,no_recovery,2,4,0,action_failure,True,True,1,,True,False,False,0,1,False,0.0,0.022,0.153,0.0,0,0,3,0,Simulated actuation failure: 'TURN_ON primary_cooler' failed
+S2_persistent_backup,Persistent Failure with Redundant Backup,fixed_retry,2,4,3,action_failure,True,True,1,,True,False,False,0,1,True,0.0,0.074,0.473,0,0,0,12,0,Recovery failed [line 16]: Simulated actuation failure: 'TURN_ON primary_cooler' failed (original error in TRY [line 13]: Simulated actuation failure: 'TURN_ON primary_cooler' failed)
+S2_persistent_backup,Persistent Failure with Redundant Backup,synthesized_recovery,2,4,3,action_failure,True,True,1,,True,True,True,0,0,False,0.015,0.037,0.454,0,1,0,8,1,
+S2_persistent_backup,Persistent Failure with Redundant Backup,no_recovery,2,4,0,action_failure,True,True,2,,True,False,False,0,1,False,0.0,0.022,0.156,0.0,0,0,3,0,Simulated actuation failure: 'TURN_ON primary_cooler' failed
+S2_persistent_backup,Persistent Failure with Redundant Backup,fixed_retry,2,4,3,action_failure,True,True,2,,True,False,False,0,1,True,0.0,0.072,0.5,0,0,0,12,0,Recovery failed [line 16]: Simulated actuation failure: 'TURN_ON primary_cooler' failed (original error in TRY [line 13]: Simulated actuation failure: 'TURN_ON primary_cooler' failed)
+S2_persistent_backup,Persistent Failure with Redundant Backup,synthesized_recovery,2,4,3,action_failure,True,True,2,,True,True,True,0,0,False,0.015,0.035,0.323,0,1,0,8,1,
+S2_persistent_backup,Persistent Failure with Redundant Backup,no_recovery,2,4,0,action_failure,True,True,3,,True,False,False,0,1,False,0.0,0.022,0.173,0.0,0,0,3,0,Simulated actuation failure: 'TURN_ON primary_cooler' failed
+S2_persistent_backup,Persistent Failure with Redundant Backup,fixed_retry,2,4,3,action_failure,True,True,3,,True,False,False,0,1,True,0.0,0.068,0.461,0,0,0,12,0,Recovery failed [line 16]: Simulated actuation failure: 'TURN_ON primary_cooler' failed (original error in TRY [line 13]: Simulated actuation failure: 'TURN_ON primary_cooler' failed)
+S2_persistent_backup,Persistent Failure with Redundant Backup,synthesized_recovery,2,4,3,action_failure,True,True,3,,True,True,True,0,0,False,0.014,0.034,0.316,0,1,0,8,1,
+S2_persistent_backup,Persistent Failure with Redundant Backup,no_recovery,2,4,0,action_failure,True,True,4,,True,False,False,0,1,False,0.0,0.022,0.172,0.0,0,0,3,0,Simulated actuation failure: 'TURN_ON primary_cooler' failed
+S2_persistent_backup,Persistent Failure with Redundant Backup,fixed_retry,2,4,3,action_failure,True,True,4,,True,False,False,0,1,True,0.0,0.081,0.499,0,0,0,12,0,Recovery failed [line 16]: Simulated actuation failure: 'TURN_ON primary_cooler' failed (original error in TRY [line 13]: Simulated actuation failure: 'TURN_ON primary_cooler' failed)
+S2_persistent_backup,Persistent Failure with Redundant Backup,synthesized_recovery,2,4,3,action_failure,True,True,4,,True,True,True,0,0,False,0.015,0.036,0.336,0,1,0,8,1,
+S3_state_mismatch,Silent State Mismatch under Contract Detection,no_recovery,2,4,0,state_mismatch,True,True,0,,True,False,False,0,1,False,0.0,0.04,0.184,0.0,0,0,7,0,ENSURE contract violated [line 5]
+S3_state_mismatch,Silent State Mismatch under Contract Detection,fixed_retry,2,4,3,state_mismatch,True,True,0,,True,False,False,0,1,False,0.0,0.077,0.645,0,0,0,20,0,
+S3_state_mismatch,Silent State Mismatch under Contract Detection,synthesized_recovery,2,4,3,state_mismatch,True,True,0,,True,True,True,0,0,False,0.016,0.045,0.341,0,1,0,12,1,
+S3_state_mismatch,Silent State Mismatch under Contract Detection,no_recovery,2,4,0,state_mismatch,True,True,1,,True,False,False,0,1,False,0.0,0.033,0.171,0.0,0,0,7,0,ENSURE contract violated [line 5]
+S3_state_mismatch,Silent State Mismatch under Contract Detection,fixed_retry,2,4,3,state_mismatch,True,True,1,,True,False,False,0,1,False,0.0,0.076,0.526,0,0,0,20,0,
+S3_state_mismatch,Silent State Mismatch under Contract Detection,synthesized_recovery,2,4,3,state_mismatch,True,True,1,,True,True,True,0,0,False,0.016,0.045,0.341,0,1,0,12,1,
+S3_state_mismatch,Silent State Mismatch under Contract Detection,no_recovery,2,4,0,state_mismatch,True,True,2,,True,False,False,0,1,False,0.0,0.034,0.189,0.0,0,0,7,0,ENSURE contract violated [line 5]
+S3_state_mismatch,Silent State Mismatch under Contract Detection,fixed_retry,2,4,3,state_mismatch,True,True,2,,True,False,False,0,1,False,0.0,0.073,0.507,0,0,0,20,0,
+S3_state_mismatch,Silent State Mismatch under Contract Detection,synthesized_recovery,2,4,3,state_mismatch,True,True,2,,True,True,True,0,0,False,0.015,0.045,0.359,0,1,0,12,1,
+S3_state_mismatch,Silent State Mismatch under Contract Detection,no_recovery,2,4,0,state_mismatch,True,True,3,,True,False,False,0,1,False,0.0,0.033,0.169,0.0,0,0,7,0,ENSURE contract violated [line 5]
+S3_state_mismatch,Silent State Mismatch under Contract Detection,fixed_retry,2,4,3,state_mismatch,True,True,3,,True,False,False,0,1,False,0.0,0.069,0.482,0,0,0,20,0,
+S3_state_mismatch,Silent State Mismatch under Contract Detection,synthesized_recovery,2,4,3,state_mismatch,True,True,3,,True,True,True,0,0,False,0.015,0.047,0.358,0,1,0,12,1,
+S3_state_mismatch,Silent State Mismatch under Contract Detection,no_recovery,2,4,0,state_mismatch,True,True,4,,True,False,False,0,1,False,0.0,0.035,0.177,0.0,0,0,7,0,ENSURE contract violated [line 5]
+S3_state_mismatch,Silent State Mismatch under Contract Detection,fixed_retry,2,4,3,state_mismatch,True,True,4,,True,False,False,0,1,False,0.0,0.072,0.504,0,0,0,20,0,
+S3_state_mismatch,Silent State Mismatch under Contract Detection,synthesized_recovery,2,4,3,state_mismatch,True,True,4,,True,True,True,0,0,False,0.016,0.048,0.35,0,1,0,12,1,
+S4_multi_device_inv,Multi-Device Invariant Coordination,no_recovery,3,8,0,action_failure,True,True,0,,True,False,False,0,1,False,0.0,0.074,0.498,0.0,0,0,31,0,Simulated actuation failure: 'TURN_ON primary_cooler' failed
+S4_multi_device_inv,Multi-Device Invariant Coordination,fixed_retry,3,8,3,action_failure,True,True,0,,True,False,False,1,1,False,0.0,0.118,0.96,0,0,0,48,0,INVARIANT contract violated [line 5]
+S4_multi_device_inv,Multi-Device Invariant Coordination,synthesized_recovery,3,8,4,action_failure,True,True,0,,True,True,True,0,0,False,0.046,0.068,0.903,0,2,2,64,2,
+S4_multi_device_inv,Multi-Device Invariant Coordination,no_recovery,3,8,0,action_failure,True,True,1,,True,False,False,0,1,False,0.0,0.063,0.449,0.0,0,0,31,0,Simulated actuation failure: 'TURN_ON primary_cooler' failed
+S4_multi_device_inv,Multi-Device Invariant Coordination,fixed_retry,3,8,3,action_failure,True,True,1,,True,False,False,1,1,False,0.0,0.108,0.999,0,0,0,48,0,INVARIANT contract violated [line 5]
+S4_multi_device_inv,Multi-Device Invariant Coordination,synthesized_recovery,3,8,4,action_failure,True,True,1,,True,True,True,0,0,False,0.038,0.075,0.852,0,2,2,64,2,
+S4_multi_device_inv,Multi-Device Invariant Coordination,no_recovery,3,8,0,action_failure,True,True,2,,True,False,False,0,1,False,0.0,0.062,0.445,0.0,0,0,31,0,Simulated actuation failure: 'TURN_ON primary_cooler' failed
+S4_multi_device_inv,Multi-Device Invariant Coordination,fixed_retry,3,8,3,action_failure,True,True,2,,True,False,False,1,1,False,0.0,0.113,0.95,0,0,0,48,0,INVARIANT contract violated [line 5]
+S4_multi_device_inv,Multi-Device Invariant Coordination,synthesized_recovery,3,8,4,action_failure,True,True,2,,True,True,True,0,0,False,0.039,0.073,0.861,0,2,2,64,2,
+S4_multi_device_inv,Multi-Device Invariant Coordination,no_recovery,3,8,0,action_failure,True,True,3,,True,False,False,0,1,False,0.0,0.07,0.509,0.0,0,0,31,0,Simulated actuation failure: 'TURN_ON primary_cooler' failed
+S4_multi_device_inv,Multi-Device Invariant Coordination,fixed_retry,3,8,3,action_failure,True,True,3,,True,False,False,1,1,False,0.0,0.113,1.117,0,0,0,48,0,INVARIANT contract violated [line 5]
+S4_multi_device_inv,Multi-Device Invariant Coordination,synthesized_recovery,3,8,4,action_failure,True,True,3,,True,True,True,0,0,False,0.04,0.076,0.872,0,2,2,64,2,
+S4_multi_device_inv,Multi-Device Invariant Coordination,no_recovery,3,8,0,action_failure,True,True,4,,True,False,False,0,1,False,0.0,0.076,0.495,0.0,0,0,31,0,Simulated actuation failure: 'TURN_ON primary_cooler' failed
+S4_multi_device_inv,Multi-Device Invariant Coordination,fixed_retry,3,8,3,action_failure,True,True,4,,True,False,False,1,1,False,0.0,0.118,0.968,0,0,0,48,0,INVARIANT contract violated [line 5]
+S4_multi_device_inv,Multi-Device Invariant Coordination,synthesized_recovery,3,8,4,action_failure,True,True,4,,True,True,True,0,0,False,0.041,0.072,0.845,0,2,2,64,2,
+S5_fail_closed,Fail-Closed Invariant Proof (Unreachable Target),no_recovery,2,4,0,none,False,False,0,,True,False,False,1,1,False,0.0,0.058,0.373,0.0,0,0,31,0,INVARIANT contract violated [line 4]
+S5_fail_closed,Fail-Closed Invariant Proof (Unreachable Target),fixed_retry,2,4,3,none,False,False,0,,True,False,False,1,1,False,0.0,0.056,0.799,0,0,0,32,0,INVARIANT contract violated [line 4]
+S5_fail_closed,Fail-Closed Invariant Proof (Unreachable Target),synthesized_recovery,2,4,3,none,False,False,0,,True,False,False,0,1,True,0.247,0.0,0.247,0.0,1,1,0,0,Fail-closed: No safe recovery plan found for target '(cooler.status == ON)' within 3 steps
+S5_fail_closed,Fail-Closed Invariant Proof (Unreachable Target),no_recovery,2,4,0,none,False,False,1,,True,False,False,1,1,False,0.0,0.049,0.338,0.0,0,0,31,0,INVARIANT contract violated [line 4]
+S5_fail_closed,Fail-Closed Invariant Proof (Unreachable Target),fixed_retry,2,4,3,none,False,False,1,,True,False,False,1,1,False,0.0,0.06,0.892,0,0,0,32,0,INVARIANT contract violated [line 4]
+S5_fail_closed,Fail-Closed Invariant Proof (Unreachable Target),synthesized_recovery,2,4,3,none,False,False,1,,True,False,False,0,1,True,0.274,0.0,0.274,0.0,1,1,0,0,Fail-closed: No safe recovery plan found for target '(cooler.status == ON)' within 3 steps
+S5_fail_closed,Fail-Closed Invariant Proof (Unreachable Target),no_recovery,2,4,0,none,False,False,2,,True,False,False,1,1,False,0.0,0.048,0.329,0.0,0,0,31,0,INVARIANT contract violated [line 4]
+S5_fail_closed,Fail-Closed Invariant Proof (Unreachable Target),fixed_retry,2,4,3,none,False,False,2,,True,False,False,1,1,False,0.0,0.051,0.717,0,0,0,32,0,INVARIANT contract violated [line 4]
+S5_fail_closed,Fail-Closed Invariant Proof (Unreachable Target),synthesized_recovery,2,4,3,none,False,False,2,,True,False,False,0,1,True,0.193,0.0,0.193,0.0,1,1,0,0,Fail-closed: No safe recovery plan found for target '(cooler.status == ON)' within 3 steps
+S5_fail_closed,Fail-Closed Invariant Proof (Unreachable Target),no_recovery,2,4,0,none,False,False,3,,True,False,False,1,1,False,0.0,0.044,0.308,0.0,0,0,31,0,INVARIANT contract violated [line 4]
+S5_fail_closed,Fail-Closed Invariant Proof (Unreachable Target),fixed_retry,2,4,3,none,False,False,3,,True,False,False,1,1,False,0.0,0.047,0.632,0,0,0,32,0,INVARIANT contract violated [line 4]
+S5_fail_closed,Fail-Closed Invariant Proof (Unreachable Target),synthesized_recovery,2,4,3,none,False,False,3,,True,False,False,0,1,True,0.2,0.0,0.2,0.0,1,1,0,0,Fail-closed: No safe recovery plan found for target '(cooler.status == ON)' within 3 steps
+S5_fail_closed,Fail-Closed Invariant Proof (Unreachable Target),no_recovery,2,4,0,none,False,False,4,,True,False,False,1,1,False,0.0,0.041,0.286,0.0,0,0,31,0,INVARIANT contract violated [line 4]
+S5_fail_closed,Fail-Closed Invariant Proof (Unreachable Target),fixed_retry,2,4,3,none,False,False,4,,True,False,False,1,1,False,0.0,0.045,0.607,0,0,0,32,0,INVARIANT contract violated [line 4]
+S5_fail_closed,Fail-Closed Invariant Proof (Unreachable Target),synthesized_recovery,2,4,3,none,False,False,4,,True,False,False,0,1,True,0.207,0.0,0.207,0.0,1,1,0,0,Fail-closed: No safe recovery plan found for target '(cooler.status == ON)' within 3 steps
+S7_probabilistic,Probabilistic Fault Sensitivity (N=30 seeds),no_recovery,3,8,0,random,True,True,0,101,True,False,False,0,1,False,0.0,0.076,0.415,0.0,0,0,34,0,
+S7_probabilistic,Probabilistic Fault Sensitivity (N=30 seeds),fixed_retry,3,8,3,random,True,True,0,101,True,False,False,0,1,False,0.0,0.067,0.689,0,0,0,38,0,
+S7_probabilistic,Probabilistic Fault Sensitivity (N=30 seeds),synthesized_recovery,3,8,4,random,True,True,0,101,True,False,False,0,1,False,0.017,0.046,0.504,0,1,0,38,1,
+S7_probabilistic,Probabilistic Fault Sensitivity (N=30 seeds),no_recovery,3,8,0,random,True,True,1,102,True,False,False,0,1,False,0.0,0.052,0.327,0.0,0,0,17,0,Pseudo-random actuation failure (seed 102)
+S7_probabilistic,Probabilistic Fault Sensitivity (N=30 seeds),fixed_retry,3,8,3,random,True,True,1,102,True,False,False,0,1,False,0.0,0.088,0.714,0,0,0,43,0,
+S7_probabilistic,Probabilistic Fault Sensitivity (N=30 seeds),synthesized_recovery,3,8,4,random,True,True,1,102,True,True,True,0,0,False,0.015,0.062,0.486,0,1,0,35,1,
+S7_probabilistic,Probabilistic Fault Sensitivity (N=30 seeds),no_recovery,3,8,0,random,True,True,2,103,True,False,False,0,1,False,0.0,0.052,0.3,0.0,0,0,34,0,
+S7_probabilistic,Probabilistic Fault Sensitivity (N=30 seeds),fixed_retry,3,8,3,random,True,True,2,103,True,False,False,0,1,False,0.0,0.072,0.678,0,0,0,38,0,
+S7_probabilistic,Probabilistic Fault Sensitivity (N=30 seeds),synthesized_recovery,3,8,4,random,True,True,2,103,True,False,False,0,1,False,0.02,0.039,0.483,0,1,0,38,1,
+S7_probabilistic,Probabilistic Fault Sensitivity (N=30 seeds),no_recovery,3,8,0,random,True,True,3,104,True,False,False,0,1,False,0.0,0.053,0.304,0.0,0,0,34,0,
+S7_probabilistic,Probabilistic Fault Sensitivity (N=30 seeds),fixed_retry,3,8,3,random,True,True,3,104,True,False,False,0,1,False,0.0,0.061,0.65,0,0,0,38,0,
+S7_probabilistic,Probabilistic Fault Sensitivity (N=30 seeds),synthesized_recovery,3,8,4,random,True,True,3,104,True,False,False,0,1,False,0.016,0.04,0.451,0,1,0,38,1,
+S7_probabilistic,Probabilistic Fault Sensitivity (N=30 seeds),no_recovery,3,8,0,random,True,True,4,105,True,False,False,0,1,False,0.0,0.05,0.289,0.0,0,0,34,0,
+S7_probabilistic,Probabilistic Fault Sensitivity (N=30 seeds),fixed_retry,3,8,3,random,True,True,4,105,True,False,False,0,1,False,0.0,0.063,0.67,0,0,0,38,0,
+S7_probabilistic,Probabilistic Fault Sensitivity (N=30 seeds),synthesized_recovery,3,8,4,random,True,True,4,105,True,False,False,0,1,False,0.017,0.044,0.495,0,1,0,38,1,
+S7_probabilistic,Probabilistic Fault Sensitivity (N=30 seeds),no_recovery,3,8,0,random,True,True,5,106,True,False,False,0,1,False,0.0,0.054,0.328,0.0,0,0,34,0,
+S7_probabilistic,Probabilistic Fault Sensitivity (N=30 seeds),fixed_retry,3,8,3,random,True,True,5,106,True,False,False,0,1,False,0.0,0.065,0.7,0,0,0,38,0,
+S7_probabilistic,Probabilistic Fault Sensitivity (N=30 seeds),synthesized_recovery,3,8,4,random,True,True,5,106,True,False,False,0,1,False,0.032,0.053,0.723,0,1,0,38,1,
+S7_probabilistic,Probabilistic Fault Sensitivity (N=30 seeds),no_recovery,3,8,0,random,True,True,6,107,True,False,False,0,1,False,0.0,0.061,0.351,0.0,0,0,17,0,Pseudo-random actuation failure (seed 107)
+S7_probabilistic,Probabilistic Fault Sensitivity (N=30 seeds),fixed_retry,3,8,3,random,True,True,6,107,True,False,False,0,1,False,0.0,0.105,0.731,0,0,0,43,0,
+S7_probabilistic,Probabilistic Fault Sensitivity (N=30 seeds),synthesized_recovery,3,8,4,random,True,True,6,107,True,True,True,0,0,False,0.021,0.059,0.517,0,1,0,35,1,
+S7_probabilistic,Probabilistic Fault Sensitivity (N=30 seeds),no_recovery,3,8,0,random,True,True,7,108,True,False,False,0,1,False,0.0,0.054,0.337,0.0,0,0,17,0,Pseudo-random actuation failure (seed 108)
+S7_probabilistic,Probabilistic Fault Sensitivity (N=30 seeds),fixed_retry,3,8,3,random,True,True,7,108,True,False,False,0,1,False,0.0,0.089,0.848,0,0,0,43,0,
+S7_probabilistic,Probabilistic Fault Sensitivity (N=30 seeds),synthesized_recovery,3,8,4,random,True,True,7,108,True,True,True,0,0,False,0.018,0.063,0.52,0,1,0,35,1,
+S7_probabilistic,Probabilistic Fault Sensitivity (N=30 seeds),no_recovery,3,8,0,random,True,True,8,109,True,False,False,0,1,False,0.0,0.047,0.316,0.0,0,0,17,0,Pseudo-random actuation failure (seed 109)
+S7_probabilistic,Probabilistic Fault Sensitivity (N=30 seeds),fixed_retry,3,8,3,random,True,True,8,109,True,False,False,0,1,False,0.0,0.089,0.717,0,0,0,43,0,
+S7_probabilistic,Probabilistic Fault Sensitivity (N=30 seeds),synthesized_recovery,3,8,4,random,True,True,8,109,True,True,True,0,0,False,0.016,0.063,0.505,0,1,0,35,1,
+S7_probabilistic,Probabilistic Fault Sensitivity (N=30 seeds),no_recovery,3,8,0,random,True,True,9,110,True,False,False,0,1,False,0.0,0.054,0.316,0.0,0,0,34,0,
+S7_probabilistic,Probabilistic Fault Sensitivity (N=30 seeds),fixed_retry,3,8,3,random,True,True,9,110,True,False,False,0,1,False,0.0,0.062,0.67,0,0,0,38,0,
+S7_probabilistic,Probabilistic Fault Sensitivity (N=30 seeds),synthesized_recovery,3,8,4,random,True,True,9,110,True,False,False,0,1,False,0.016,0.061,0.529,0,1,0,38,1,
+S7_probabilistic,Probabilistic Fault Sensitivity (N=30 seeds),no_recovery,3,8,0,random,True,True,10,201,True,False,False,0,1,False,0.0,0.048,0.324,0.0,0,0,17,0,Pseudo-random actuation failure (seed 201)
+S7_probabilistic,Probabilistic Fault Sensitivity (N=30 seeds),fixed_retry,3,8,3,random,True,True,10,201,True,False,False,0,1,True,0.0,0.108,0.759,0,0,0,26,0,Recovery failed [line 18]: Pseudo-random actuation failure (seed 201) (original error in TRY [line 15]: Pseudo-random actuation failure (seed 201))
+S7_probabilistic,Probabilistic Fault Sensitivity (N=30 seeds),synthesized_recovery,3,8,4,random,True,True,10,201,True,False,False,0,1,False,0.019,0.053,0.512,0,1,0,20,1,Recovery failed [line 10]: Pseudo-random actuation failure (seed 201) (original error in TRY [line 7]: Pseudo-random actuation failure (seed 201))
+S7_probabilistic,Probabilistic Fault Sensitivity (N=30 seeds),no_recovery,3,8,0,random,True,True,11,202,True,False,False,0,1,False,0.0,0.055,0.309,0.0,0,0,34,0,
+S7_probabilistic,Probabilistic Fault Sensitivity (N=30 seeds),fixed_retry,3,8,3,random,True,True,11,202,True,False,False,0,1,False,0.0,0.062,0.771,0,0,0,38,0,
+S7_probabilistic,Probabilistic Fault Sensitivity (N=30 seeds),synthesized_recovery,3,8,4,random,True,True,11,202,True,False,False,0,1,False,0.016,0.043,0.466,0,1,0,38,1,
+S7_probabilistic,Probabilistic Fault Sensitivity (N=30 seeds),no_recovery,3,8,0,random,True,True,12,203,True,False,False,0,1,False,0.0,0.045,0.301,0.0,0,0,17,0,Pseudo-random actuation failure (seed 203)
+S7_probabilistic,Probabilistic Fault Sensitivity (N=30 seeds),fixed_retry,3,8,3,random,True,True,12,203,True,False,False,0,1,False,0.0,0.109,0.699,0,0,0,43,0,
+S7_probabilistic,Probabilistic Fault Sensitivity (N=30 seeds),synthesized_recovery,3,8,4,random,True,True,12,203,True,True,True,0,0,False,0.016,0.064,0.505,0,1,0,35,1,
+S7_probabilistic,Probabilistic Fault Sensitivity (N=30 seeds),no_recovery,3,8,0,random,True,True,13,204,True,False,False,0,1,False,0.0,0.045,0.311,0.0,0,0,17,0,Pseudo-random actuation failure (seed 204)
+S7_probabilistic,Probabilistic Fault Sensitivity (N=30 seeds),fixed_retry,3,8,3,random,True,True,13,204,True,False,False,0,1,False,0.0,0.107,0.718,0,0,0,48,0,
+S7_probabilistic,Probabilistic Fault Sensitivity (N=30 seeds),synthesized_recovery,3,8,4,random,True,True,13,204,True,False,False,0,1,False,0.016,0.056,0.507,0,1,0,20,1,Recovery failed [line 10]: Pseudo-random actuation failure (seed 204) (original error in TRY [line 7]: Pseudo-random actuation failure (seed 204))
+S7_probabilistic,Probabilistic Fault Sensitivity (N=30 seeds),no_recovery,3,8,0,random,True,True,14,205,True,False,False,0,1,False,0.0,0.057,0.327,0.0,0,0,34,0,
+S7_probabilistic,Probabilistic Fault Sensitivity (N=30 seeds),fixed_retry,3,8,3,random,True,True,14,205,True,False,False,0,1,False,0.0,0.073,0.721,0,0,0,38,0,
+S7_probabilistic,Probabilistic Fault Sensitivity (N=30 seeds),synthesized_recovery,3,8,4,random,True,True,14,205,True,False,False,0,1,False,0.028,0.065,0.681,0,1,0,38,1,
+S7_probabilistic,Probabilistic Fault Sensitivity (N=30 seeds),no_recovery,3,8,0,random,True,True,15,206,True,False,False,0,1,False,0.0,0.057,0.388,0.0,0,0,17,0,Pseudo-random actuation failure (seed 206)
+S7_probabilistic,Probabilistic Fault Sensitivity (N=30 seeds),fixed_retry,3,8,3,random,True,True,15,206,True,False,False,0,1,False,0.0,0.118,0.785,0,0,0,48,0,
+S7_probabilistic,Probabilistic Fault Sensitivity (N=30 seeds),synthesized_recovery,3,8,4,random,True,True,15,206,True,False,False,0,1,False,0.018,0.057,0.531,0,1,0,20,1,Recovery failed [line 10]: Pseudo-random actuation failure (seed 206) (original error in TRY [line 7]: Pseudo-random actuation failure (seed 206))
+S7_probabilistic,Probabilistic Fault Sensitivity (N=30 seeds),no_recovery,3,8,0,random,True,True,16,207,True,False,False,0,1,False,0.0,0.062,0.365,0.0,0,0,34,0,
+S7_probabilistic,Probabilistic Fault Sensitivity (N=30 seeds),fixed_retry,3,8,3,random,True,True,16,207,True,False,False,0,1,False,0.0,0.067,0.773,0,0,0,38,0,
+S7_probabilistic,Probabilistic Fault Sensitivity (N=30 seeds),synthesized_recovery,3,8,4,random,True,True,16,207,True,False,False,0,1,False,0.018,0.048,0.522,0,1,0,38,1,
+S7_probabilistic,Probabilistic Fault Sensitivity (N=30 seeds),no_recovery,3,8,0,random,True,True,17,208,True,False,False,0,1,False,0.0,0.05,0.337,0.0,0,0,17,0,Pseudo-random actuation failure (seed 208)
+S7_probabilistic,Probabilistic Fault Sensitivity (N=30 seeds),fixed_retry,3,8,3,random,True,True,17,208,True,False,False,0,1,False,0.0,0.25,0.911,0,0,0,43,0,
+S7_probabilistic,Probabilistic Fault Sensitivity (N=30 seeds),synthesized_recovery,3,8,4,random,True,True,17,208,True,True,True,0,0,False,0.018,0.079,0.61,0,1,0,35,1,
+S7_probabilistic,Probabilistic Fault Sensitivity (N=30 seeds),no_recovery,3,8,0,random,True,True,18,209,True,False,False,0,1,False,0.0,0.064,0.37,0.0,0,0,34,0,
+S7_probabilistic,Probabilistic Fault Sensitivity (N=30 seeds),fixed_retry,3,8,3,random,True,True,18,209,True,False,False,0,1,False,0.0,0.075,0.8,0,0,0,38,0,
+S7_probabilistic,Probabilistic Fault Sensitivity (N=30 seeds),synthesized_recovery,3,8,4,random,True,True,18,209,True,False,False,0,1,False,0.02,0.049,0.565,0,1,0,38,1,
+S7_probabilistic,Probabilistic Fault Sensitivity (N=30 seeds),no_recovery,3,8,0,random,True,True,19,210,True,False,False,0,1,False,0.0,0.055,0.366,0.0,0,0,17,0,Pseudo-random actuation failure (seed 210)
+S7_probabilistic,Probabilistic Fault Sensitivity (N=30 seeds),fixed_retry,3,8,3,random,True,True,19,210,True,False,False,0,1,False,0.0,0.098,0.811,0,0,0,43,0,
+S7_probabilistic,Probabilistic Fault Sensitivity (N=30 seeds),synthesized_recovery,3,8,4,random,True,True,19,210,True,True,True,0,0,False,0.018,0.071,0.567,0,1,0,35,1,
+S7_probabilistic,Probabilistic Fault Sensitivity (N=30 seeds),no_recovery,3,8,0,random,True,True,20,301,True,False,False,0,1,False,0.0,0.052,0.351,0.0,0,0,17,0,Pseudo-random actuation failure (seed 301)
+S7_probabilistic,Probabilistic Fault Sensitivity (N=30 seeds),fixed_retry,3,8,3,random,True,True,20,301,True,False,False,0,1,False,0.0,0.098,0.78,0,0,0,43,0,
+S7_probabilistic,Probabilistic Fault Sensitivity (N=30 seeds),synthesized_recovery,3,8,4,random,True,True,20,301,True,True,True,0,0,False,0.018,0.079,0.602,0,1,0,35,1,
+S7_probabilistic,Probabilistic Fault Sensitivity (N=30 seeds),no_recovery,3,8,0,random,True,True,21,302,True,False,False,0,1,False,0.0,0.066,0.38,0.0,0,0,34,0,
+S7_probabilistic,Probabilistic Fault Sensitivity (N=30 seeds),fixed_retry,3,8,3,random,True,True,21,302,True,False,False,0,1,False,0.0,0.072,0.801,0,0,0,38,0,
+S7_probabilistic,Probabilistic Fault Sensitivity (N=30 seeds),synthesized_recovery,3,8,4,random,True,True,21,302,True,False,False,0,1,False,0.019,0.054,0.59,0,1,0,38,1,
+S7_probabilistic,Probabilistic Fault Sensitivity (N=30 seeds),no_recovery,3,8,0,random,True,True,22,303,True,False,False,0,1,False,0.0,0.056,0.378,0.0,0,0,17,0,Pseudo-random actuation failure (seed 303)
+S7_probabilistic,Probabilistic Fault Sensitivity (N=30 seeds),fixed_retry,3,8,3,random,True,True,22,303,True,False,False,0,1,False,0.0,0.103,0.818,0,0,0,43,0,
+S7_probabilistic,Probabilistic Fault Sensitivity (N=30 seeds),synthesized_recovery,3,8,4,random,True,True,22,303,True,True,True,0,0,False,0.018,0.075,0.587,0,1,0,35,1,
+S7_probabilistic,Probabilistic Fault Sensitivity (N=30 seeds),no_recovery,3,8,0,random,True,True,23,304,True,False,False,0,1,False,0.0,0.053,0.363,0.0,0,0,17,0,Pseudo-random actuation failure (seed 304)
+S7_probabilistic,Probabilistic Fault Sensitivity (N=30 seeds),fixed_retry,3,8,3,random,True,True,23,304,True,False,False,0,1,False,0.0,0.102,0.816,0,0,0,43,0,
+S7_probabilistic,Probabilistic Fault Sensitivity (N=30 seeds),synthesized_recovery,3,8,4,random,True,True,23,304,True,True,True,0,0,False,0.018,0.074,0.586,0,1,0,35,1,
+S7_probabilistic,Probabilistic Fault Sensitivity (N=30 seeds),no_recovery,3,8,0,random,True,True,24,305,True,False,False,0,1,False,0.0,0.053,0.363,0.0,0,0,17,0,Pseudo-random actuation failure (seed 305)
+S7_probabilistic,Probabilistic Fault Sensitivity (N=30 seeds),fixed_retry,3,8,3,random,True,True,24,305,True,False,False,0,1,False,0.0,0.102,0.815,0,0,0,43,0,
+S7_probabilistic,Probabilistic Fault Sensitivity (N=30 seeds),synthesized_recovery,3,8,4,random,True,True,24,305,True,True,True,0,0,False,0.018,0.075,0.606,0,1,0,35,1,
+S7_probabilistic,Probabilistic Fault Sensitivity (N=30 seeds),no_recovery,3,8,0,random,True,True,25,306,True,False,False,0,1,False,0.0,0.065,0.379,0.0,0,0,34,0,
+S7_probabilistic,Probabilistic Fault Sensitivity (N=30 seeds),fixed_retry,3,8,3,random,True,True,25,306,True,False,False,0,1,False,0.0,0.088,0.964,0,0,0,38,0,
+S7_probabilistic,Probabilistic Fault Sensitivity (N=30 seeds),synthesized_recovery,3,8,4,random,True,True,25,306,True,False,False,0,1,False,0.021,0.053,0.591,0,1,0,38,1,
+S7_probabilistic,Probabilistic Fault Sensitivity (N=30 seeds),no_recovery,3,8,0,random,True,True,26,307,True,False,False,0,1,False,0.0,0.066,0.382,0.0,0,0,34,0,
+S7_probabilistic,Probabilistic Fault Sensitivity (N=30 seeds),fixed_retry,3,8,3,random,True,True,26,307,True,False,False,0,1,False,0.0,0.077,0.816,0,0,0,38,0,
+S7_probabilistic,Probabilistic Fault Sensitivity (N=30 seeds),synthesized_recovery,3,8,4,random,True,True,26,307,True,False,False,0,1,False,0.02,0.052,0.583,0,1,0,38,1,
+S7_probabilistic,Probabilistic Fault Sensitivity (N=30 seeds),no_recovery,3,8,0,random,True,True,27,308,True,False,False,0,1,False,0.0,0.058,0.379,0.0,0,0,17,0,Pseudo-random actuation failure (seed 308)
+S7_probabilistic,Probabilistic Fault Sensitivity (N=30 seeds),fixed_retry,3,8,3,random,True,True,27,308,True,False,False,0,1,False,0.0,0.109,0.854,0,0,0,43,0,
+S7_probabilistic,Probabilistic Fault Sensitivity (N=30 seeds),synthesized_recovery,3,8,4,random,True,True,27,308,True,True,True,0,0,False,0.019,0.078,0.614,0,1,0,35,1,
+S7_probabilistic,Probabilistic Fault Sensitivity (N=30 seeds),no_recovery,3,8,0,random,True,True,28,309,True,False,False,0,1,False,0.0,0.056,0.381,0.0,0,0,17,0,Pseudo-random actuation failure (seed 309)
+S7_probabilistic,Probabilistic Fault Sensitivity (N=30 seeds),fixed_retry,3,8,3,random,True,True,28,309,True,False,False,0,1,True,0.0,0.145,0.896,0,0,0,49,0,
+S7_probabilistic,Probabilistic Fault Sensitivity (N=30 seeds),synthesized_recovery,3,8,4,random,True,True,28,309,True,False,False,0,1,False,0.019,0.064,0.592,0,1,0,20,1,Recovery failed [line 10]: Pseudo-random actuation failure (seed 309) (original error in TRY [line 7]: Pseudo-random actuation failure (seed 309))
+S7_probabilistic,Probabilistic Fault Sensitivity (N=30 seeds),no_recovery,3,8,0,random,True,True,29,310,True,False,False,0,1,False,0.0,0.066,0.382,0.0,0,0,34,0,
+S7_probabilistic,Probabilistic Fault Sensitivity (N=30 seeds),fixed_retry,3,8,3,random,True,True,29,310,True,False,False,0,1,False,0.0,0.079,0.844,0,0,0,38,0,
+S7_probabilistic,Probabilistic Fault Sensitivity (N=30 seeds),synthesized_recovery,3,8,4,random,True,True,29,310,True,False,False,0,1,False,0.032,0.049,0.656,0,1,0,38,1,

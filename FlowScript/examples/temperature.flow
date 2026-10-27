@@ -1,0 +1,18 @@
+START
+SET temperature = 35
+SET attempts = 3
+PRINT "Starting temperature monitoring"
+IF temperature > 30
+    PRINT "Temperature is high"
+    TURN_ON fan
+ELSE
+    PRINT "Temperature is normal"
+    TURN_OFF fan
+END_IF
+REPEAT attempts
+    PRINT "Checking..."
+    WAIT 2
+END_REPEAT
+TURN_OFF fan
+PRINT "Monitoring completed"
+END

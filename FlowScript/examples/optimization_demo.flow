@@ -1,0 +1,14 @@
+# Run with: python main.py examples/optimization_demo.flow --ir
+START
+SET x = 10
+SET y = x + 5          # folds to 15 via propagation + folding
+SET limit = 2 * 10 + 5
+IF 1 > 2               # constant condition: branch is dead code
+    PRINT "never printed"
+    TURN_ON heater
+ELSE
+    PRINT "dead branch removed"
+END_IF
+PRINT y
+PRINT limit
+END
