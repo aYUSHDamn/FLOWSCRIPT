@@ -1,3 +1,14 @@
+## 🚀 Live Demo
+
+**[Open FlowScript Studio](https://flowscript-q832.onrender.com/)**
+
+Explore the compiler pipeline, inspect intermediate representations,
+execute sample workflows, and experiment with safety-constrained recovery.
+
+## 💻 Source Code
+
+[View the source on GitHub](https://github.com/aYUSHDamn/FLOWSCRIPT)
+
 # FlowScript & FlowScript Studio
 
 FlowScript is a research-oriented domain-specific language and compiler for sequential, safety-critical workflows. It features a complete compiler pipeline, property-based device sensing, global invariants, local contract assertions, explicit fault recovery blocks, and automated safety-constrained recovery synthesis using bounded Breadth-First Search (BFS).
